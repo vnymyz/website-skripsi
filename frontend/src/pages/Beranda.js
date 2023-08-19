@@ -7,12 +7,22 @@ import Image from "../images/cat2.jpg";
 import Image1 from "../images/olen2.jpg";
 import { Link } from "react-router-dom";
 
+// const LandingContainer = styled(Container)(({ theme }) => ({
+//   position: "relative",
+//   backgroundImage: `url(${Image})`,
+//   backgroundSize: "cover",
+//   backgroundPosition: "center",
+//   color: theme.palette.common.white,
+//   textAlign: "center",
+//   paddingTop: theme.spacing(10),
+//   paddingBottom: theme.spacing(15),
+// }));
+
 const LandingContainer = styled(Container)(({ theme }) => ({
   position: "relative",
-  backgroundImage: `url(${Image})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  color: theme.palette.common.white,
+  color: theme.palette.common.black,
   textAlign: "center",
   paddingTop: theme.spacing(10),
   paddingBottom: theme.spacing(15),
