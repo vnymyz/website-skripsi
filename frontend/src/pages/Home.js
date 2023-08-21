@@ -8,6 +8,9 @@ import moment from "moment";
 import Loader from "../components/Loader";
 import { io } from "socket.io-client";
 
+import flatYellow from "../images/flat-yellow.png";
+import flatBlue from "../images/flat-blue.png";
+
 const socket = io("/", {
   reconnection: true,
 });
@@ -55,8 +58,11 @@ const Home = () => {
 
   return (
     <>
-      <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
+      {/* <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}> */}
         <Navbar />
+        <div style={{border:'0px solid', minHeight: '100vh', position: 'relative'}}>
+        <img src={flatYellow} style={{ position: 'absolute', width: '250px', right: '0', zIndex: '-1'}} alt="yellow" />
+        <img src={flatBlue} style={{ position: 'absolute', width: '250px', bottom: '0',  zIndex: '-1'}} alt="blue" />
         <Container sx={{ pt: 5, pb: 5, minHeight: "83vh" }}>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
@@ -87,8 +93,9 @@ const Home = () => {
             </Grid>
           </Box>
         </Container>
+        </div>
         <Footer />
-      </Box>
+      {/* </Box> */}
     </>
   );
 };

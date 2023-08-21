@@ -6,7 +6,7 @@ exports.signup = async (req, res, next) => {
   const { email } = req.body;
   const userExist = await User.findOne({ email });
   if (userExist) {
-    return next(new ErrorResponse("E-mail already registered", 400));
+    return next(new ErrorResponse("E-mail sudah terdaftar", 400));
   }
   try {
     const user = await User.create(req.body);
@@ -25,24 +25,24 @@ exports.signin = async (req, res, next) => {
     const { email, password } = req.body;
     // validation
     if (!email) {
-      return next(new ErrorResponse("Please add an e-mail", 403));
+      return next(new ErrorResponse("Email tidak boleh kosong", 403));
     }
     if (!password) {
-      return next(new ErrorResponse("Please add a password", 403));
+      return next(new ErrorResponse("Password tidak boleh kosong", 403));
     }
 
     // check user and email
     // if we dont find the users email in our database when user try to sign in
     const user = await User.findOne({ email });
     if (!user) {
-      return next(new ErrorResponse("invalid credentials", 400));
+      return next(new ErrorResponse("Email atau password salah", 400));
     }
     // check password
     // compare password in userModel
     // if the password is not matched then error when sign in
     const isMatched = await user.comparePassword(password);
     if (!isMatched) {
-      return next(new ErrorResponse("Invalid credentials", 400));
+      return next(new ErrorResponse("Email atau password salah", 400));
     }
 
     sendTokenResponse(user, 200, res);

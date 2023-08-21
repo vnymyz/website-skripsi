@@ -76,7 +76,7 @@ const PostCard = ({
         {/* gambar dan lainnya */}
         <CardMedia
           component="img"
-          height="194"
+          height="250"
           image={image}
           alt="Paella dish"
         />

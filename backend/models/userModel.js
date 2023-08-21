@@ -7,26 +7,26 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      required: [true, "First name is required"],
+      required: [true, "Nama lengkap tidak boleh kosong"],
       maxlength: 32,
     },
 
     email: {
       type: String,
       trim: true,
-      required: [true, "E-mail is required"],
+      required: [true, "E-mail tidak boleh kosong"],
       unique: true,
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please add a valid email",
+        "Format email salah",
       ],
     },
 
     password: {
       type: String,
       trim: true,
-      required: [true, "password is required"],
-      minlength: [6, "password must have at least (6) characters"],
+      required: [true, "password tidak boleh kosong"],
+      minlength: [6, "Password minimal 6 karakter"],
     },
 
     role: {

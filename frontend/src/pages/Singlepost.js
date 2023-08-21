@@ -12,7 +12,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Box, Button, Divider } from "@mui/material";
+import { Box, Button, Container, Divider, Grid } from "@mui/material";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -78,7 +78,7 @@ const SinglePost = () => {
       const { data } = await axios.put(`/api/comment/post/${id}`, { comment });
       if (data.success === true) {
         setComment("");
-        toast.success("comment added");
+        toast.success("Komentar berhasil dikirim");
         //displaySinglePost();
         socket.emit("comment", data.post.comments);
       }
@@ -98,8 +98,6 @@ const SinglePost = () => {
       <Box
         sx={{
           bgcolor: "#fafafa",
-          display: "flex",
-          justifyContent: "center",
           pt: 4,
           pb: 4,
           minHeight: "100vh",
@@ -109,80 +107,98 @@ const SinglePost = () => {
           <Loader />
         ) : (
           <>
-            <Card sx={{ maxWidth: 1000, height: "100%" }}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={title}
-                subheader={moment(createdAt).format("MMMM DD, YYYY")}
-              />
-              <CardMedia
-                component="img"
-                height="194"
-                image={image}
-                alt={title}
-              />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  <Box
-                    component="span"
-                    dangerouslySetInnerHTML={{ __html: content }}
-                  ></Box>
-                </Typography>
-                <Divider variant="inset" />
-                {/* add coment list */}
-                {comments.length === 0 ? (
-                  ""
-                ) : (
-                  <Typography variant="h5" sx={{ pt: 3, mb: 2 }}>
-                    Comments:
-                  </Typography>
-                )}
-
-                {uiCommentUpdate.map((comment) => (
-                  <CommentList
-                    key={comment._id}
-                    name={comment.postedBy.name}
-                    text={comment.text}
+            <Container>
+              <Grid container spacing={3}>
+              <Grid item xs={12} md={4}>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="290"
+                    image={image}
+                    alt={title}
                   />
-                ))}
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Card elevation={3}>
+                  <CardHeader
+                    avatar={
+                      <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                        R
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={title}
+                    subheader={moment(createdAt).format("MMMM DD, YYYY")}
+                  />
+                  <CardContent style={{minHeight: 180}}>
+                    <Typography variant="body2" color="text.secondary">
+                      <Box
+                        component="span"
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      ></Box>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Card elevation={3}>
+                  <CardContent>
+                    {/* add coment list */}
+                    {comments.length === 0 ? (
+                      ""
+                    ) : (
+                      <Typography variant="h5" sx={{ pt: 3, mb: 2 }}>
+                        Comments:
+                      </Typography>
+                    )}
 
-                {userInfo ? (
-                  <>
-                    <Box sx={{ pt: 1, pl: 3, pb: 3, bgcolor: "#fafafa" }}>
-                      <h2>Add your comment here!</h2>
-                      <form onSubmit={addComment}>
-                        <TextareaAutosize
-                          onChange={(e) => setComment(e.target.value)}
-                          value={comment}
-                          aria-label="minimum height"
-                          minRows={3}
-                          placeholder="Add a comment..."
-                          style={{ width: 500, padding: "5px" }}
-                        />
-                        <Box sx={{ pt: 1 }}>
-                          <Button type="submit" variant="contained">
-                            Comment
-                          </Button>
+                    {uiCommentUpdate.map((comment) => (
+                      <CommentList
+                        key={comment._id}
+                        name={comment.postedBy.name}
+                        text={comment.text}
+                      />
+                    ))}
+
+                    {userInfo ? (
+                      <>
+                        <Box sx={{ pt: 1, pl: 3, pb: 3, bgcolor: "#fafafa" }}>
+                          <h2>Add your comment here!</h2>
+                          <form onSubmit={addComment}>
+                            <TextareaAutosize
+                              onChange={(e) => setComment(e.target.value)}
+                              value={comment}
+                              aria-label="minimum height"
+                              minRows={3}
+                              placeholder="Add a comment..."
+                              style={{ width: 500, padding: "5px" }}
+                            />
+                            <Box sx={{ pt: 1 }}>
+                              <Button type="submit" variant="contained">
+                                Comment
+                              </Button>
+                            </Box>
+                          </form>
                         </Box>
-                      </form>
-                    </Box>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/login"> Log In to add a comment</Link>
-                  </>
-                )}
-              </CardContent>
-            </Card>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/login"> Log In to add a comment</Link>
+                      </>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+              </Grid>
+            </Container>
+
+            
+            
           </>
         )}
       </Box>

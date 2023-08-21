@@ -12,14 +12,26 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HouseIcon from "@mui/icons-material/House";
 import PetsIcon from "@mui/icons-material/Pets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import {
+  userLogoutAction,
+  userProfileAction,
+} from "../redux/actions/userAction";
 
 const pages = ["Home", "Log In"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const { user } = useSelector((state) => state.userProfile);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const path = window.location.pathname
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,6 +49,14 @@ const Navbar = () => {
   };
 
   // log out user
+  //log out
+  const logOut = () => {
+    dispatch(userLogoutAction());
+    window.location.reload(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+  };
 
   return (
     <AppBar position="static">
@@ -52,7 +72,7 @@ const Navbar = () => {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "poppins",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -108,7 +128,7 @@ const Navbar = () => {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
+              fontFamily: "poppins",
               fontWeight: 700,
               letterSpacing: ".2rem",
               color: "inherit",
@@ -132,8 +152,9 @@ const Navbar = () => {
               <Link
                 to="/beranda"
                 style={{ color: "white", textDecoration: "none" }}
+                className={path == '/beranda' ? 'active':''}
               >
-                Home
+                Beranda
               </Link>
             </Typography>
 
@@ -141,7 +162,7 @@ const Navbar = () => {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block", mr: 2 }}
             >
-              <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+              <Link to="/" style={{ color: "white", textDecoration: "none" }} className={path == '/' ? 'active':''}>
                 Kucing
               </Link>
             </Typography>
@@ -153,6 +174,7 @@ const Navbar = () => {
               <Link
                 to="/testimoni"
                 style={{ color: "white", textDecoration: "none" }}
+                className={path == '/testimoni' ? 'active':''}
               >
                 Testimoni
               </Link>
@@ -165,6 +187,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 style={{ color: "white", textDecoration: "none" }}
+                className={path == '/about' ? 'active':''}
               >
                 Tentang
               </Link>
@@ -177,6 +200,7 @@ const Navbar = () => {
               <Link
                 to="/register"
                 style={{ color: "white", textDecoration: "none" }}
+                className={path == '/register' ? 'active':''}
               >
                 Daftar
               </Link>
@@ -187,6 +211,7 @@ const Navbar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="" />
+                <span style={{color: 'white', fontSize: '18px', marginLeft: '10px'}}>{user && user.name}</span>
               </IconButton>
             </Tooltip>
             <Menu
@@ -230,7 +255,7 @@ const Navbar = () => {
                   </Link>
                 </Typography>
               </MenuItem>
-              : (
+              {/* : ( */}
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
                   <Link style={{ textDecoration: "none" }} to="/login">
@@ -238,7 +263,19 @@ const Navbar = () => {
                   </Link>
                 </Typography>
               </MenuItem>
-              )
+              {user && user.name && (
+                <>
+                <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">
+                  <Link style={{ textDecoration: "none" }} onClick={logOut}>
+                    Keluar Akun{" "}
+                  </Link>
+                </Typography>
+              </MenuItem>
+                </>
+              ) }
+              
+              {/* ) */}
             </Menu>
           </Box>
         </Toolbar>
