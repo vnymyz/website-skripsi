@@ -9,7 +9,7 @@ const UserDashboard = () => {
     <>
       <Box sx={{ bgcolor: "white", p: 3 }}>
         <h1>Dashboard</h1>
-        <p>Complete name: {user && user.name}</p>
+        <p>Nama lengkap: {user && user.name}</p>
         <p>E-mail: {user && user.email}</p>
         <p>Role: {user && user.role}</p>
       </Box>

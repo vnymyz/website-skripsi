@@ -11,13 +11,13 @@ import { modules } from "../components/moduleToolbar";
 
 const validationSchema = yup.object({
   title: yup
-    .string("Add a post title")
-    .min(4, "text content should havea minimum of 4 characters ")
-    .required("Post title is required"),
+    .string("Masukkan nama judul")
+    .min(4, "Minimal 4 karakter ")
+    .required("Nama judul tidak boleh kosong"),
   content: yup
-    .string("Add text content")
-    .min(10, "text content should havea minimum of 10 characters ")
-    .required("text content is required"),
+    .string("Masukkan deskripsi")
+    .min(10, "minimal 10 karakter ")
+    .required("Deskripsi tidak boleh kosong"),
 });
 
 const CreatePost = () => {
@@ -47,7 +47,7 @@ const CreatePost = () => {
   const createNewPost = async (values) => {
     try {
       const { data } = await axios.post("/api/post/create", values);
-      toast.success("post created");
+      toast.success("Data berhasil disimpan");
     } catch (error) {
       console.log(error);
       toast.error(error);
@@ -59,19 +59,19 @@ const CreatePost = () => {
       <Box sx={{ bgcolor: "white", padding: "20px 200px" }}>
         <Typography variant="h5" sx={{ pb: 4 }}>
           {" "}
-          Create post{" "}
+          Tambah Data{" "}
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             sx={{ mb: 3 }}
             fullWidth
             id="title"
-            label="Post title"
+            label="Nama Judul"
             name="title"
             InputLabelProps={{
               shrink: true,
             }}
-            placeholder="Post title"
+            placeholder="Nama Judul"
             value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -82,7 +82,7 @@ const CreatePost = () => {
           <Box sx={{ mb: 3 }}>
             <ReactQuill
               theme="snow"
-              placeholder={"Write the post content..."}
+              placeholder={"Tulis deskripsi"}
               modules={modules}
               value={values.content}
               onChange={(e) => setFieldValue("content", e)}
@@ -129,7 +129,7 @@ const CreatePost = () => {
                       </p>
                       <p style={{ textAlign: "center", fontSize: "12px" }}>
                         {" "}
-                        Drop here!
+                        Tarik ke sini
                       </p>
                     </>
                   ) : values.image === null ? (
@@ -140,7 +140,7 @@ const CreatePost = () => {
                         />
                       </p>
                       <p style={{ textAlign: "center", fontSize: "12px" }}>
-                        Drag and Drop here or click to choose
+                        Tahan dan tarik di sini
                       </p>
                     </>
                   ) : (
@@ -174,7 +174,7 @@ const CreatePost = () => {
             sx={{ mt: 3, p: 1, mb: 2, borderRadius: "25px" }}
             // disabled={loading}
           >
-            Create post
+            Simpan
           </Button>
         </Box>
       </Box>

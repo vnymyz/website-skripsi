@@ -7,6 +7,7 @@ import {
   userReducerSignIn,
   userReducerSignUp,
 } from "./reducers/userReducer";
+import { feedbackHandler } from "./reducers/feedBackReducer";
 
 //combine reducers
 const reducer = combineReducers({
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   signUp: userReducerSignUp,
   logOut: userReducerLogout,
   userProfile: userReducerProfile,
+  feedBack: feedbackHandler,
 });
 
 //initial state

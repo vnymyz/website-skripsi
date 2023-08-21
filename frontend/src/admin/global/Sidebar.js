@@ -84,7 +84,7 @@ const SidebarAdm = () => {
                     icon={<PostAddIcon />}
                   >
                     {" "}
-                    Create post{" "}
+                    Tambah Kucing{" "}
                   </MenuItem>
                 </>
               ) : (
@@ -128,7 +128,7 @@ const SidebarAdm = () => {
             >
               <MenuItem onClick={logOut} icon={<LoginIcon />}>
                 {" "}
-                Log out{" "}
+                Keluar Akun{" "}
               </MenuItem>
             </Menu>
           </Box>

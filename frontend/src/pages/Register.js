@@ -10,15 +10,15 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const validationSchema = yup.object({
-  name: yup.string("Enter your complete name").required("Name is required"),
+  name: yup.string("Masukaan nama lengkap").required("Nama tidak boleh kosong"),
   email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
+    .string("Masukkan email")
+    .email("Format email tidak sesuai")
+    .required("Email tidak boleh kosong"),
   password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+    .string("Masukkan password")
+    .min(8, "Password minimal 8 karakter")
+    .required("Password tidak boleh kosong"),
 });
 
 const Register = () => {
@@ -76,12 +76,12 @@ const Register = () => {
               }}
               fullWidth
               id="name"
-              label="Name"
+              label="Nama"
               name="name"
               InputLabelProps={{
                 shrink: true,
               }}
-              placeholder="Complete name"
+              placeholder="Nama lengkap"
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -135,7 +135,7 @@ const Register = () => {
             />
 
             <Button fullWidth variant="contained" type="submit">
-              Register
+              Daftar
             </Button>
           </Box>
         </Box>

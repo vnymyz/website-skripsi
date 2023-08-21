@@ -5,11 +5,11 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "title is required"],
+      required: [true, "Nama judul tidak boleh kosong"],
     },
     content: {
       type: String,
-      required: [true, "content is required"],
+      required: [true, "Deskripsi tidak boleh kosong"],
     },
     postedBy: {
       type: ObjectId,

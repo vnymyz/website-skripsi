@@ -13,13 +13,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const validationSchema = yup.object({
   title: yup
-    .string("Add a post title")
-    .min(4, "text content should havea minimum of 4 characters ")
-    .required("Post title is required"),
+    .string("Masukkan nama judul")
+    .min(4, "Minimal 4 karakter")
+    .required("Nama judul tidak boleh kosong"),
   content: yup
-    .string("Add text content")
-    .min(10, "text content should havea minimum of 10 characters ")
-    .required("text content is required"),
+    .string("Masukkan deskripsi")
+    .min(10, "Minimal 10 karakter")
+    .required("Deskripsi tidak boleh kosong"),
 });
 
 const EditPost = () => {
@@ -78,7 +78,7 @@ const EditPost = () => {
     try {
       const { data } = await axios.put(`/api/update/post/${id}`, values);
       if (data.success === true) {
-        toast.success("post updated");
+        toast.success("Data berhasil diubah");
         navigate("/admin/dashboard");
       }
     } catch (error) {
@@ -92,19 +92,19 @@ const EditPost = () => {
       <Box sx={{ bgcolor: "white", padding: "20px 200px" }}>
         <Typography variant="h5" sx={{ pb: 4 }}>
           {" "}
-          Edit post{" "}
+          Ubah Data{" "}
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             sx={{ mb: 3 }}
             fullWidth
             id="title"
-            label="Post title"
+            label="Nama Judul"
             name="title"
             InputLabelProps={{
               shrink: true,
             }}
-            placeholder="Post title"
+            placeholder="Nama Judul"
             value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -115,7 +115,7 @@ const EditPost = () => {
           <Box sx={{ mb: 3 }}>
             <ReactQuill
               theme="snow"
-              placeholder={"Write the post content..."}
+              placeholder={"Tulis deskripsi"}
               modules={modules}
               value={values.content}
               onChange={(e) => setFieldValue("content", e)}
@@ -162,7 +162,7 @@ const EditPost = () => {
                       </p>
                       <p style={{ textAlign: "center", fontSize: "12px" }}>
                         {" "}
-                        Drop here!
+                        Tarik ke sini
                       </p>
                     </>
                   ) : values.image === null ? (
@@ -173,7 +173,7 @@ const EditPost = () => {
                         />
                       </p>
                       <p style={{ textAlign: "center", fontSize: "12px" }}>
-                        Drag and Drop image here or click to choose
+                        Tahan dan tarik gambar di sini
                       </p>
                     </>
                   ) : (
@@ -209,7 +209,7 @@ const EditPost = () => {
             sx={{ mt: 3, p: 1, mb: 2, borderRadius: "25px" }}
             // disabled={loading}
           >
-            Update post
+            Simpan Perubahan
           </Button>
         </Box>
       </Box>

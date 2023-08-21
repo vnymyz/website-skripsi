@@ -9,9 +9,11 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
+  const { user } = useSelector((state) => state.userProfile);
 
   const displayPost = async () => {
     try {
@@ -46,50 +48,50 @@ const AdminDashboard = () => {
   const columns = [
     {
       field: "_id",
-      headerName: "Post ID",
+      headerName: "ID",
       width: 150,
       editable: true,
     },
     {
       field: "title",
-      headerName: "Post title",
+      headerName: "Nama Judul",
       width: 150,
     },
 
     {
       field: "image",
-      headerName: "Image",
+      headerName: "Gambar",
       width: 150,
       renderCell: (params) => <img width="40%" src={params.row.image.url} />,
     },
     {
       field: "likes",
-      headerName: "Likes",
+      headerName: "Suka",
       width: 150,
       renderCell: (params) => params.row.likes.length,
     },
     {
       field: "comments",
-      headerName: "Comments",
+      headerName: "Komentar",
       width: 150,
       renderCell: (params) => params.row.comments.length,
     },
     {
       field: "postedBy",
-      headerName: "Posted by",
+      headerName: "Dibuat oleh",
       width: 150,
       valueGetter: (data) => data.row.postedBy.name,
     },
     {
       field: "createdAt",
-      headerName: "Create At",
+      headerName: "Tanggal Input",
       width: 150,
       renderCell: (params) =>
         moment(params.row.createdAt).format("YYYY-MM-DD HH:MM:SS"),
     },
 
     {
-      field: "Actions",
+      field: "Aksi",
       width: 100,
       renderCell: (value) => (
         <Box
@@ -117,8 +119,9 @@ const AdminDashboard = () => {
 
   return (
     <Box>
+      <h1>Hallo Admin {user && user.name}</h1>
       <Typography variant="h4" sx={{ color: "black", pb: 3 }}>
-        Posts
+        Data Kucing
       </Typography>
       <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
         <Button variant="contained" color="success" startIcon={<AddIcon />}>
@@ -126,7 +129,7 @@ const AdminDashboard = () => {
             style={{ color: "white", textDecoration: "none" }}
             to="/admin/post/create"
           >
-            Create Post
+            Tambah Data
           </Link>{" "}
         </Button>
       </Box>
