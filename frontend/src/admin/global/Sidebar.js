@@ -84,7 +84,7 @@ const SidebarAdm = () => {
                     icon={<PostAddIcon />}
                   >
                     {" "}
-                    Data Kucing{" "}
+                    Mengelola Kucing{" "}
                   </MenuItem>
                 </>
               ) : (

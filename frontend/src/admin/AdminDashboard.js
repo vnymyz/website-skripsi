@@ -121,7 +121,7 @@ const AdminDashboard = () => {
     <Box>
       <h1>Halo Admin {user && user.name} !</h1>
       <Typography variant="h4" sx={{ color: "black", pb: 3 }}>
-        Data Kucing
+        Mengelola Kucing
       </Typography>
       <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
         <Button variant="contained" color="success" startIcon={<AddIcon />}>
