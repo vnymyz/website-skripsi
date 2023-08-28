@@ -119,7 +119,7 @@ const AdminDashboard = () => {
 
   return (
     <Box>
-      <h1>Hallo Admin {user && user.name}</h1>
+      <h1>Halo Admin {user && user.name} !</h1>
       <Typography variant="h4" sx={{ color: "black", pb: 3 }}>
         Data Kucing
       </Typography>

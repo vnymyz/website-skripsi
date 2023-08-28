@@ -16,12 +16,12 @@ import Footer from "../components/Footer";
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
+    .email("Masukkan email yang valid")
+    .required("Email tidak boleh kosong"),
   password: yup
     .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+    .min(8, "Password harus memiliki panjang minimal 8 karakter")
+    .required("Password tidak boleh kosong"),
 });
 
 const LogIn = () => {
@@ -134,7 +134,7 @@ const LogIn = () => {
               variant="contained"
               type="submit"
             >
-              {loading ? "Loading.." : "Log In"}
+              {loading ? "Loading.." : "Login"}
             </Button>
           </Box>
         </Box>

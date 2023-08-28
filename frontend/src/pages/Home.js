@@ -59,10 +59,34 @@ const Home = () => {
   return (
     <>
       {/* <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}> */}
-        <Navbar />
-        <div style={{border:'0px solid', minHeight: '100vh', position: 'relative'}}>
-        <img src={flatYellow} style={{ position: 'absolute', width: '250px', right: '0', zIndex: '-1'}} alt="yellow" />
-        <img src={flatBlue} style={{ position: 'absolute', width: '250px', bottom: '0',  zIndex: '-1'}} alt="blue" />
+      <Navbar />
+      <div
+        style={{
+          border: "0px solid",
+          minHeight: "100vh",
+          position: "relative",
+        }}
+      >
+        <img
+          src={flatYellow}
+          style={{
+            position: "absolute",
+            width: "250px",
+            right: "0",
+            zIndex: "-1",
+          }}
+          alt="yellow"
+        />
+        <img
+          src={flatBlue}
+          style={{
+            position: "absolute",
+            width: "250px",
+            bottom: "0",
+            zIndex: "-1",
+          }}
+          alt="blue"
+        />
         <Container sx={{ pt: 5, pb: 5, minHeight: "83vh" }}>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
@@ -93,8 +117,8 @@ const Home = () => {
             </Grid>
           </Box>
         </Container>
-        </div>
-        <Footer />
+      </div>
+      <Footer />
       {/* </Box> */}
     </>
   );

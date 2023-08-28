@@ -82,7 +82,7 @@ exports.deletePost = async (req, res, next) => {
     const post = await Post.findByIdAndRemove(req.params.id);
     res.status(200).json({
       success: true,
-      message: "post deleted",
+      message: "Data telah dihapus !",
     });
   } catch (error) {
     next(error);

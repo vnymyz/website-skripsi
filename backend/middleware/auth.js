@@ -7,7 +7,7 @@ exports.isAuthenticated = async (req, res, next) => {
   const { token } = req.cookies;
   // make sure token exist
   if (!token) {
-    return next(new ErrorResponse("You must Log in", 401));
+    return next(new ErrorResponse("Wajib Login", 401));
   }
 
   try {
@@ -16,7 +16,7 @@ exports.isAuthenticated = async (req, res, next) => {
     req.user = await User.findById(decoded.id);
     next();
   } catch (error) {
-    return next(new ErrorResponse("You must Log in", 401));
+    return next(new ErrorResponse("Wajib Login", 401));
   }
 };
 

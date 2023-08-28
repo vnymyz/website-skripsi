@@ -70,7 +70,7 @@ const SidebarAdm = () => {
                 <>
                   <MenuItem component={<Link to="/" />} icon={<HomeIcon />}>
                     {" "}
-                    Home{" "}
+                    Beranda{" "}
                   </MenuItem>
                   <MenuItem
                     component={<Link to="/admin/dashboard" />}
@@ -84,14 +84,14 @@ const SidebarAdm = () => {
                     icon={<PostAddIcon />}
                   >
                     {" "}
-                    Tambah Kucing{" "}
+                    Data Kucing{" "}
                   </MenuItem>
                 </>
               ) : (
                 <>
                   <MenuItem component={<Link to="/" />} icon={<HomeIcon />}>
                     {" "}
-                    Home{" "}
+                    Beranda{" "}
                   </MenuItem>
 
                   <MenuItem

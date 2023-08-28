@@ -31,7 +31,7 @@ const LandingContainer = styled(Container)(({ theme }) => ({
 
 const IntroText = styled(Typography)(({ theme }) => ({
   // marginBottom: theme.spacing(4),
-  fontFamily: 'Poppins'
+  fontFamily: "Poppins",
 }));
 
 // const ActionButton = styled(Button)(({ theme }) => ({
@@ -42,38 +42,110 @@ const Beranda = () => {
   return (
     <>
       <Navbar />
-      <div style={{border:'0px solid', minHeight: '100vh', position: 'relative'}}>
-        <img src={flatYellow} style={{ position: 'absolute', width: '250px', right: '0', zIndex: '-1'}} alt="yellow" />
-        <img src={flatBlue} style={{ position: 'absolute', width: '250px', bottom: '0'}} alt="blue" />
+      <div
+        style={{
+          border: "0px solid",
+          minHeight: "100vh",
+          position: "relative",
+        }}
+      >
+        <img
+          src={flatYellow}
+          style={{
+            position: "absolute",
+            width: "250px",
+            right: "0",
+            zIndex: "-1",
+          }}
+          alt="yellow"
+        />
+        <img
+          src={flatBlue}
+          style={{ position: "absolute", width: "250px", bottom: "0" }}
+          alt="blue"
+        />
 
         <LandingContainer>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={5} style={{border: '0px solid', paddingTop: '8rem'}}>
-            <IntroText variant="h6" mb={0} style={{fontSize: '16px', fontWeight: 'bold', color: '#373636'}}>Anda ingin mengadopsi kucing ?</IntroText>
-            <IntroText variant="h3" mb={4} style={{fontSize: '50px', fontWeight: '900', color: '#373636', fontFamily: 'Montserrat', letterSpacing: '0'}}>Gembul Cimoet</IntroText>
-            <IntroText variant="h6" mb={0} style={{fontSize: '16px', color: '#373636', fontWeight: 'bold'}}>Di sinilah <span style={{color: '#DC7361'}}>solusi yang tepat</span> untuk Anda</IntroText>
-            <IntroText variant="body1" mb={1} style={{fontSize: '14px', color: '#373636'}}>
-              Di pusat adopsi kucing kami, kami berkomitmen untuk mencari rumah
-              yang penuh kasih bagi kucing-kucing yang membutuhkan.
-            </IntroText>
-            <IntroText variant="body1" mb={5} style={{fontSize: '14px', color: '#373636'}}>
-              Apakah Anda mencari anak kucing yang lucu atau kucing dewasa yang
-              lembut, kami memiliki berbagai sahabat kucing yang siap untuk Anda
-              temui.
-            </IntroText>
-            <Button as={Link} to={"/"} variant="contained" color="primary" style={{textDecoration: 'none'}}>
-              Yuk Adopsi Kucing
-            </Button>
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              md={5}
+              style={{ border: "0px solid", paddingTop: "8rem" }}
+            >
+              <IntroText
+                variant="h6"
+                mb={0}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#373636",
+                }}
+              >
+                Anda ingin mengadopsi kucing ?
+              </IntroText>
+              <IntroText
+                variant="h3"
+                mb={4}
+                style={{
+                  fontSize: "50px",
+                  fontWeight: "900",
+                  color: "#373636",
+                  fontFamily: "Montserrat",
+                  letterSpacing: "0",
+                }}
+              >
+                Gembul Cimot
+              </IntroText>
+              <IntroText
+                variant="h6"
+                mb={0}
+                style={{
+                  fontSize: "16px",
+                  color: "#373636",
+                  fontWeight: "bold",
+                }}
+              >
+                Di sinilah{" "}
+                <span style={{ color: "#DC7361" }}>solusi yang tepat</span>{" "}
+                untuk Anda
+              </IntroText>
+              <IntroText
+                variant="body1"
+                mb={1}
+                style={{ fontSize: "14px", color: "#373636" }}
+              >
+                Di pusat adopsi kucing kami, kami berkomitmen untuk mencari
+                rumah yang penuh kasih bagi kucing-kucing yang membutuhkan.
+              </IntroText>
+              <IntroText
+                variant="body1"
+                mb={5}
+                style={{ fontSize: "14px", color: "#373636" }}
+              >
+                Apakah Anda mencari anak kucing yang lucu atau kucing dewasa
+                yang lembut, kami memiliki berbagai sahabat kucing yang siap
+                untuk Anda temui.
+              </IntroText>
+              <Button
+                as={Link}
+                to={"/"}
+                variant="contained"
+                color="primary"
+                style={{ textDecoration: "none" }}
+              >
+                Yuk Adopsi Kucing
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={7}>
+              <img
+                src={catBox}
+                alt="Cat"
+                style={{ width: "100%", height: "auto" }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={7}>
-            <img
-              src={catBox}
-              alt="Cat"
-              style={{ width: "100%", height: "auto" }}
-            />
-          </Grid>
-        </Grid>
-      </LandingContainer>
+        </LandingContainer>
       </div>
       <Footer />
     </>

@@ -14,7 +14,7 @@ import HouseIcon from "@mui/icons-material/House";
 import PetsIcon from "@mui/icons-material/Pets";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   userLogoutAction,
   userProfileAction,
@@ -31,7 +31,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const path = window.location.pathname
+  const path = window.location.pathname;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -79,7 +79,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            Gembul Cimoet
+            Gembul Cimot
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -152,7 +152,7 @@ const Navbar = () => {
               <Link
                 to="/beranda"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == '/beranda' ? 'active':''}
+                className={path == "/beranda" ? "active" : ""}
               >
                 Beranda
               </Link>
@@ -162,7 +162,11 @@ const Navbar = () => {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block", mr: 2 }}
             >
-              <Link to="/" style={{ color: "white", textDecoration: "none" }} className={path == '/' ? 'active':''}>
+              <Link
+                to="/"
+                style={{ color: "white", textDecoration: "none" }}
+                className={path == "/" ? "active" : ""}
+              >
                 Kucing
               </Link>
             </Typography>
@@ -174,7 +178,7 @@ const Navbar = () => {
               <Link
                 to="/testimoni"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == '/testimoni' ? 'active':''}
+                className={path == "/testimoni" ? "active" : ""}
               >
                 Testimoni
               </Link>
@@ -187,7 +191,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == '/about' ? 'active':''}
+                className={path == "/about" ? "active" : ""}
               >
                 Tentang
               </Link>
@@ -200,7 +204,7 @@ const Navbar = () => {
               <Link
                 to="/register"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == '/register' ? 'active':''}
+                className={path == "/register" ? "active" : ""}
               >
                 Daftar
               </Link>
@@ -211,7 +215,15 @@ const Navbar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="" />
-                <span style={{color: 'white', fontSize: '18px', marginLeft: '10px'}}>{user && user.name}</span>
+                <span
+                  style={{
+                    color: "white",
+                    fontSize: "18px",
+                    marginLeft: "10px",
+                  }}
+                >
+                  {user && user.name}
+                </span>
               </IconButton>
             </Tooltip>
             <Menu
@@ -238,44 +250,46 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to="/admin/dashboard"
-                  >
-                    Admin{" "}
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
-                  <Link style={{ textDecoration: "none" }} to="/user/dashboard">
-                    User{" "}
-                  </Link>
-                </Typography>
-              </MenuItem>
-              {/* : ( */}
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
-                  <Link style={{ textDecoration: "none" }} to="/login">
-                    Login{" "}
-                  </Link>
-                </Typography>
-              </MenuItem>
-              {user && user.name && (
+              {user && user.name ? ( // If user is logged in
                 <>
-                <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
-                  <Link style={{ textDecoration: "none" }} onClick={logOut}>
-                    Keluar Akun{" "}
-                  </Link>
-                </Typography>
-              </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to="/admin/dashboard"
+                      >
+                        Admin
+                      </Link>
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to="/user/dashboard"
+                      >
+                        User
+                      </Link>
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">
+                      <Link style={{ textDecoration: "none" }} onClick={logOut}>
+                        Keluar Akun
+                      </Link>
+                    </Typography>
+                  </MenuItem>
                 </>
-              ) }
-              
-              {/* ) */}
+              ) : (
+                // If user is not logged in
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    <Link style={{ textDecoration: "none" }} to="/login">
+                      Login
+                    </Link>
+                  </Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
