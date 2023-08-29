@@ -86,9 +86,17 @@ const SidebarAdm = () => {
                     {" "}
                     Mengelola Kucing{" "}
                   </MenuItem>
+                  <MenuItem
+                    component={<Link to="/admin/kategori/create" />}
+                    icon={<PostAddIcon />}
+                  >
+                    {" "}
+                    Tambah Kategori{" "}
+                  </MenuItem>
                 </>
               ) : (
                 <>
+                  {/* YANG INI BUAT DASHBOARD USER  */}
                   <MenuItem component={<Link to="/" />} icon={<HomeIcon />}>
                     {" "}
                     Beranda{" "}

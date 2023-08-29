@@ -1,4 +1,12 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
@@ -20,7 +28,24 @@ const validationSchema = yup.object({
     .required("Deskripsi tidak boleh kosong"),
 });
 
+// untuk select kategori pada saat ingin menambah post
 const CreatePost = () => {
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
+
+  useEffect(() => {
+    fetchKategoriList();
+  }, []);
+
+  const fetchKategoriList = async () => {
+    try {
+      const { data } = await axios.get("/api/kategori");
+      setKategoriList(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const {
     values,
     errors,
@@ -37,22 +62,18 @@ const CreatePost = () => {
     },
 
     validationSchema: validationSchema,
-    onSubmit: (values, actions) => {
-      createNewPost(values);
-      //alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values, actions) => {
+      values.kategoriId = selectedKategori;
+      try {
+        const { data } = await axios.post("/api/post/create", values);
+        toast.success("Data berhasil disimpan");
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
+      }
       actions.resetForm();
     },
   });
-
-  const createNewPost = async (values) => {
-    try {
-      const { data } = await axios.post("/api/post/create", values);
-      toast.success("Data berhasil disimpan");
-    } catch (error) {
-      console.log(error);
-      toast.error(error);
-    }
-  };
 
   return (
     <>
@@ -78,6 +99,25 @@ const CreatePost = () => {
             error={touched.title && Boolean(errors.title)}
             helperText={touched.title && errors.title}
           />
+
+          <Select
+            sx={{ mb: 3 }}
+            fullWidth
+            id="kategori"
+            label="Kategori"
+            name="kategori"
+            value={selectedKategori}
+            onChange={(e) => setSelectedKategori(e.target.value)}
+          >
+            <MenuItem value={values.kategori} disabled>
+              Pilih Kategori
+            </MenuItem>
+            {kategoriList.map((kategori) => (
+              <MenuItem key={kategori._id} value={kategori._id}>
+                {kategori.namakat}
+              </MenuItem>
+            ))}
+          </Select>
 
           <Box sx={{ mb: 3 }}>
             <ReactQuill
