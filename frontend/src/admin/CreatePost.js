@@ -109,7 +109,7 @@ const CreatePost = () => {
             value={selectedKategori}
             onChange={(e) => setSelectedKategori(e.target.value)}
           >
-            <MenuItem value={values.kategori} disabled>
+            <MenuItem value="" disabled>
               Pilih Kategori
             </MenuItem>
             {kategoriList.map((kategori) => (

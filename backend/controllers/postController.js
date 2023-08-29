@@ -1,12 +1,26 @@
 const cloudinary = require("../utils/cloudinary");
 const Post = require("../models/postModel");
+const Kategori = require("../models/kategoriModel");
 const ErrorResponse = require("../utils/errorResponse");
 const main = require("../app");
 
 // everytime you make an exports you have to import in postRoute
 // create post with the controller name
 exports.createPost = async (req, res, next) => {
-  const { title, content, postedBy, image, likes, comments } = req.body;
+  const { title, content, postedBy, image, kategoriId, likes, comments } =
+    req.body;
+
+  try {
+    const kategori = await Kategori.findById(kategoriId);
+    if (!kategori) {
+      return res.status(400).json({
+        success: false,
+        error: "Kategori not found",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
 
   try {
     // upload image in cloudinary
@@ -24,6 +38,7 @@ exports.createPost = async (req, res, next) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
+      kategoriId,
     });
 
     res.status(201).json({

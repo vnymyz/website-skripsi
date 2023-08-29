@@ -30,6 +30,11 @@ const postSchema = new mongoose.Schema(
         },
       },
     ],
+    kategoriId: {
+      type: ObjectId,
+      ref: "Kategori",
+      required: true,
+    },
   },
   { timestamps: true }
 );

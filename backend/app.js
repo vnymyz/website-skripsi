@@ -20,6 +20,7 @@ const io = new Server(server);
 const authRoutes = require("./routes/authRoutes");
 const postRoute = require("./routes/postRoute");
 const feebackRoute = require("./routes/feebackRoute");
+const kategoriRoutes = require("./routes/kategoriRoutes");
 
 // database connection
 mongoose
@@ -48,6 +49,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", postRoute);
 app.use("/api", feebackRoute);
+app.use("/api", kategoriRoutes);
 
 // error middleware
 app.use(errorHandler);

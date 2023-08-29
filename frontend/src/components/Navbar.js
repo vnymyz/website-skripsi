@@ -176,6 +176,19 @@ const Navbar = () => {
               sx={{ my: 2, color: "white", display: "block", mr: 2 }}
             >
               <Link
+                to="/info"
+                style={{ color: "white", textDecoration: "none" }}
+                className={path == "/info" ? "active" : ""}
+              >
+                Artikel
+              </Link>
+            </Typography>
+
+            <Typography
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block", mr: 2 }}
+            >
+              <Link
                 to="/testimoni"
                 style={{ color: "white", textDecoration: "none" }}
                 className={path == "/testimoni" ? "active" : ""}
