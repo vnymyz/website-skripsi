@@ -14,6 +14,22 @@ import { useSelector } from "react-redux";
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
   const { user } = useSelector((state) => state.userProfile);
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
+
+  // const untuk kategori
+  const fetchKategoriList = async () => {
+    try {
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchKategoriList();
+  }, []);
 
   const displayPost = async () => {
     try {
@@ -88,6 +104,18 @@ const AdminDashboard = () => {
       width: 150,
       renderCell: (params) =>
         moment(params.row.createdAt).format("YYYY-MM-DD HH:MM:SS"),
+    },
+
+    {
+      field: "kategori",
+      headerName: "Kategori",
+      width: 150,
+      valueGetter: (params) => {
+        const selectedKategori = kategoriList.find(
+          (kategori) => kategori._id == params.row.kategoriId
+        );
+        return selectedKategori ? selectedKategori.namakat : "N/A";
+      },
     },
 
     {

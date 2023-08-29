@@ -33,18 +33,18 @@ const CreatePost = () => {
   const [selectedKategori, setSelectedKategori] = useState("");
   const [kategoriList, setKategoriList] = useState([]);
 
-  useEffect(() => {
-    fetchKategoriList();
-  }, []);
-
   const fetchKategoriList = async () => {
     try {
-      const { data } = await axios.get("/api/kategori");
-      setKategoriList(data);
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchKategoriList();
+  }, []);
 
   const {
     values,
@@ -104,8 +104,9 @@ const CreatePost = () => {
             sx={{ mb: 3 }}
             fullWidth
             id="kategori"
-            label="Kategori"
+            label="Pilih Kategori"
             name="kategori"
+            placeholder="Pilih Kategori"
             value={selectedKategori}
             onChange={(e) => setSelectedKategori(e.target.value)}
           >

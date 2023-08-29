@@ -1,4 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
@@ -28,8 +35,24 @@ const EditPost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
 
   const navigate = useNavigate();
+
+  // const untuk kategori
+  const KategoriById = async () => {
+    try {
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    KategoriById();
+  }, []);
 
   const {
     values,
@@ -48,9 +71,8 @@ const EditPost = () => {
 
     validationSchema: validationSchema,
     enableReinitialize: true,
-    onSubmit: (values, actions) => {
+    onSubmit: async (values, actions) => {
       updatePost(values);
-      //alert(JSON.stringify(values, null, 2));
       actions.resetForm();
     },
   });
@@ -61,6 +83,7 @@ const EditPost = () => {
     try {
       const { data } = await axios.get(`/api/post/${id}`);
       setTitle(data.post.title);
+      setSelectedKategori(data.post.kategoriId);
       setContent(data.post.content);
       setImagePreview(data.post.image.url);
       console.log("single post admin", data.post);
@@ -76,9 +99,10 @@ const EditPost = () => {
 
   const updatePost = async (values) => {
     try {
+      values.kategoriId = selectedKategori; // Add the selected category to the values
       const { data } = await axios.put(`/api/update/post/${id}`, values);
       if (data.success === true) {
-        toast.success("Data berhasil diubah");
+        toast.success("Post updated");
         navigate("/admin/dashboard");
       }
     } catch (error) {
@@ -112,6 +136,28 @@ const EditPost = () => {
             helperText={touched.title && errors.title}
           />
 
+          {/* edit kategori */}
+          <Select
+            sx={{ mb: 3 }}
+            fullWidth
+            id="kategori"
+            label="Pilih Kategori"
+            name="kategori"
+            placeholder="Pilih Kategori"
+            value={selectedKategori}
+            onChange={(e) => setSelectedKategori(e.target.value)}
+          >
+            <MenuItem value="" disabled>
+              Pilih Kategori
+            </MenuItem>
+            {kategoriList.map((kategori) => (
+              <MenuItem key={kategori._id} value={kategori._id}>
+                {kategori.namakat}
+              </MenuItem>
+            ))}
+          </Select>
+
+          {/* tulis deskripsi */}
           <Box sx={{ mb: 3 }}>
             <ReactQuill
               theme="snow"
@@ -128,6 +174,7 @@ const EditPost = () => {
             </Box>
           </Box>
 
+          {/* gambar */}
           <Box border="2px dashed blue" sx={{ p: 1 }}>
             <Dropzone
               acceptedFiles=".jpg,.jpeg,.png"
