@@ -51,7 +51,12 @@ const EditPost = () => {
   };
 
   useEffect(() => {
-    KategoriById();
+    const fetchData = async () => {
+      await KategoriById();
+      await singlePostById();
+    };
+
+    fetchData();
   }, []);
 
   const {
@@ -99,8 +104,13 @@ const EditPost = () => {
 
   const updatePost = async (values) => {
     try {
+      console.log("Selected Kategori:", selectedKategori); // Tambahkan baris ini
+
       values.kategoriId = selectedKategori; // Add the selected category to the values
+      console.log("Update Values:", values);
       const { data } = await axios.put(`/api/update/post/${id}`, values);
+      console.log("Update Response:", data);
+
       if (data.success === true) {
         toast.success("Post updated");
         navigate("/admin/dashboard");

@@ -107,7 +107,7 @@ exports.deletePost = async (req, res, next) => {
 // update or edit post
 exports.updatePost = async (req, res, next) => {
   try {
-    const { title, content, image } = req.body;
+    const { title, content, image, kategoriId } = req.body;
     const currentPost = await Post.findById(req.params.id);
 
     // build object data
@@ -115,6 +115,7 @@ exports.updatePost = async (req, res, next) => {
       title: title || currentPost.title,
       content: content || currentPost.content,
       image: image || currentPost.image,
+      kategoriId: kategoriId || currentPost.kategoriId,
     };
 
     // modify post image conditionally

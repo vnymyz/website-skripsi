@@ -66,14 +66,20 @@ const CreatePost = () => {
       values.kategoriId = selectedKategori;
       try {
         const { data } = await axios.post("/api/post/create", values);
+        console.log("Post creation response:", data);
         toast.success("Data berhasil disimpan");
       } catch (error) {
-        console.log(error);
+        console.log("Post creation response:", error);
         toast.error(error);
       }
       actions.resetForm();
     },
   });
+
+  useEffect(() => {
+    console.log("Selected Kategori:", selectedKategori); // Log the selected kategori
+    console.log("Kategori List:", kategoriList); // Log the fetched kategori list
+  }, [selectedKategori, kategoriList]);
 
   return (
     <>
