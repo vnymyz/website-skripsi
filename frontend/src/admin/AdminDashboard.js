@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -43,6 +50,27 @@ const AdminDashboard = () => {
   useEffect(() => {
     displayPost();
   }, []);
+
+  const fetchPostByKategori = async (kategoriId) => {
+    try {
+      const { data } = await axios.get(`/api/post/bykategori/${kategoriId}`);
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handlekategori
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    setSelectedKategori(selectedKategoriId);
+
+    if (selectedKategoriId) {
+      fetchPostByKategori(selectedKategoriId);
+    } else {
+      displayPost();
+    }
+  };
 
   //delete post by Id
   const deletePostById = async (e, id) => {
@@ -160,6 +188,23 @@ const AdminDashboard = () => {
             Tambah Data
           </Link>{" "}
         </Button>
+      </Box>
+      {/* filter kategori */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Typography variant="body1">Filter by Category:</Typography>
+        <Select
+          value={selectedKategori}
+          onChange={handleKategoriChange}
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
+        >
+          <MenuItem value="">All Categories</MenuItem>
+          {kategoriList.map((kategori) => (
+            <MenuItem key={kategori._id} value={kategori._id}>
+              {kategori.namakat}
+            </MenuItem>
+          ))}
+        </Select>
       </Box>
       <Paper sx={{ bgcolor: "white" }}>
         <Box sx={{ height: 400, width: "100%" }}>

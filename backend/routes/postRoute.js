@@ -23,6 +23,6 @@ router.put("/comment/post/:id", isAuthenticated, addComment);
 router.put("/addlike/post/:id", isAuthenticated, addLike);
 router.put("/removelike/post/:id", isAuthenticated, removeLike);
 // new route for selecting post by kategori
-router.get("/bykategori/:kategoriId", showPostByKategori);
+router.get("/bykategori/:kategoriId", showPostByKategori, isAuthenticated);
 
 module.exports = router;

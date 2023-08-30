@@ -25,57 +25,52 @@ const Info = () => {
   const [kategoriList, setKategoriList] = useState([]);
 
   // DISPLAY POST
-  const showPosts = async () => {
-    setLoading(true);
+  const fetchKategoriList = async () => {
     try {
-      const { data } = await axios.get("/api/post/show");
-      setPosts(data.posts);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response.data.error);
-    }
-  };
-
-  // fetch kategori and set kategoriList state
-  useEffect(() => {
-    const fetchKategori = async () => {
-      try {
-        const { data } = await axios.get(`/api/kategori/`);
-        setKategoriList(data.kategoriList);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchKategori();
-  }, []);
-
-  // handle kategori selection
-  const handleKategoriChange = (event) => {
-    const selectedKategoriId = event.target.value;
-    setSelectedKategori(selectedKategoriId);
-
-    if (selectedKategoriId) {
-      showPostByKategori(selectedKategoriId);
-    } else {
-      showPosts();
-    }
-  };
-
-  const showPostByKategori = async (kategoriId) => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(`/api/post/bykategori/${kategoriId}`);
-      setPosts(data.posts);
-      setLoading(false);
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    showPosts();
+    fetchKategoriList();
   }, []);
+
+  const displayPost = async () => {
+    try {
+      const { data } = await axios.get("/api/post/show");
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    displayPost();
+  }, []);
+
+  const fetchPostByKategori = async (kategoriId) => {
+    try {
+      const { data } = await axios.get(`/api/post/bykategori/${kategoriId}`);
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handlekategori
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    setSelectedKategori(selectedKategoriId);
+
+    if (selectedKategoriId) {
+      fetchPostByKategori(selectedKategoriId);
+    } else {
+      displayPost();
+    }
+  };
 
   useEffect(() => {
     socket.on("add-like", (newPosts) => {
@@ -163,7 +158,7 @@ const Info = () => {
                       comments={post.comments.length}
                       likes={post.likes.length}
                       likesId={post.likes}
-                      showPosts={showPosts}
+                      showPosts={displayPost}
                     />
                   </Grid>
                 ))
