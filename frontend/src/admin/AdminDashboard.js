@@ -53,7 +53,7 @@ const AdminDashboard = () => {
 
   const fetchPostByKategori = async (kategoriId) => {
     try {
-      const { data } = await axios.get(`/api/post/bykategori/${kategoriId}`);
+      const { data } = await axios.get(`/api/bykategori/${kategoriId}`);
       setPosts(data.posts);
     } catch (error) {
       console.log(error);

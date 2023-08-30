@@ -228,7 +228,7 @@ exports.removeLike = async (req, res, next) => {
 };
 
 // adding new function to select post by kategori
-exports.showPostByKategori = async (req, res, next) => {
+exports.fetchPostByKategori = async (req, res, next) => {
   const kategoriId = req.params.kategoriId;
 
   try {

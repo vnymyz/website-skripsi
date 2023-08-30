@@ -9,9 +9,11 @@ const {
   addComment,
   addLike,
   removeLike,
-  showPostByKategori,
+  fetchPostByKategori,
 } = require("../controllers/postController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
+const Post = require("../models/postModel");
+const cors = require("cors");
 
 // adoptcat routes for the post
 router.post("/post/create", isAuthenticated, isAdmin, createPost);
@@ -23,6 +25,6 @@ router.put("/comment/post/:id", isAuthenticated, addComment);
 router.put("/addlike/post/:id", isAuthenticated, addLike);
 router.put("/removelike/post/:id", isAuthenticated, removeLike);
 // new route for selecting post by kategori
-router.get("/bykategori/:kategoriId", showPostByKategori, isAuthenticated);
+router.get("/bykategori/:kategoriId", fetchPostByKategori);
 
 module.exports = router;
