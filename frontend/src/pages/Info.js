@@ -1,3 +1,4 @@
+import { Select, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import { Box, Container, Grid } from "@mui/material";
@@ -7,6 +8,7 @@ import axios from "axios";
 import moment from "moment";
 import Loader from "../components/Loader";
 import { io } from "socket.io-client";
+
 import flatYellow from "../images/flat-yellow.png";
 import flatBlue from "../images/flat-blue.png";
 
@@ -19,9 +21,10 @@ const Info = () => {
   const [loading, setLoading] = useState(false);
   const [postAddLike, setPostAddLike] = useState([]);
   const [postRemoveLike, setPostRemoveLike] = useState([]);
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
 
   // DISPLAY POST
-
   const showPosts = async () => {
     setLoading(true);
     try {
@@ -30,6 +33,43 @@ const Info = () => {
       setLoading(false);
     } catch (error) {
       console.log(error.response.data.error);
+    }
+  };
+
+  // fetch kategori and set kategoriList state
+  useEffect(() => {
+    const fetchKategori = async () => {
+      try {
+        const { data } = await axios.get(`/api/kategori/`);
+        setKategoriList(data.kategoriList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchKategori();
+  }, []);
+
+  // handle kategori selection
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    setSelectedKategori(selectedKategoriId);
+
+    if (selectedKategoriId) {
+      showPostByKategori(selectedKategoriId);
+    } else {
+      showPosts();
+    }
+  };
+
+  const showPostByKategori = async (kategoriId) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`/api/post/bykategori/${kategoriId}`);
+      setPosts(data.posts);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -87,6 +127,21 @@ const Info = () => {
           alt="blue"
         />
         <Container sx={{ pt: 5, pb: 5, minHeight: "83vh" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Select
+              value={selectedKategori}
+              onChange={handleKategoriChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value="">Semua Kategori</MenuItem>
+              {kategoriList.map((kategori) => (
+                <MenuItem key={kategori._id} value={kategori._id}>
+                  {kategori.namakat}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               container

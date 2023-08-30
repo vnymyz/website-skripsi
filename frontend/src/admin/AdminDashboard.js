@@ -75,6 +75,18 @@ const AdminDashboard = () => {
     },
 
     {
+      field: "kategori",
+      headerName: "Kategori",
+      width: 150,
+      valueGetter: (params) => {
+        const selectedKategori = kategoriList.find(
+          (kategori) => kategori._id == params.row.kategoriId
+        );
+        return selectedKategori ? selectedKategori.namakat : "N/A";
+      },
+    },
+
+    {
       field: "image",
       headerName: "Gambar",
       width: 150,
@@ -104,18 +116,6 @@ const AdminDashboard = () => {
       width: 150,
       renderCell: (params) =>
         moment(params.row.createdAt).format("YYYY-MM-DD HH:MM:SS"),
-    },
-
-    {
-      field: "kategori",
-      headerName: "Kategori",
-      width: 150,
-      valueGetter: (params) => {
-        const selectedKategori = kategoriList.find(
-          (kategori) => kategori._id == params.row.kategoriId
-        );
-        return selectedKategori ? selectedKategori.namakat : "N/A";
-      },
     },
 
     {

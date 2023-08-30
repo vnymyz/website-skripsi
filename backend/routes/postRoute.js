@@ -9,6 +9,7 @@ const {
   addComment,
   addLike,
   removeLike,
+  showPostByKategori,
 } = require("../controllers/postController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
@@ -21,5 +22,7 @@ router.put("/update/post/:id", isAuthenticated, isAdmin, updatePost);
 router.put("/comment/post/:id", isAuthenticated, addComment);
 router.put("/addlike/post/:id", isAuthenticated, addLike);
 router.put("/removelike/post/:id", isAuthenticated, removeLike);
+// new route for selecting post by kategori
+router.get("/bykategori/:kategoriId", showPostByKategori);
 
 module.exports = router;

@@ -226,3 +226,21 @@ exports.removeLike = async (req, res, next) => {
     next(error);
   }
 };
+
+// adding new function to select post by kategori
+exports.showPostByKategori = async (req, res, next) => {
+  const kategoriId = req.params.kategoriId;
+
+  try {
+    const posts = await Post.find({ kategoriId })
+      .sort({ createdAt: -1 })
+      .populate("postedBy", "name");
+
+    res.status(200).json({
+      success: true,
+      posts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
