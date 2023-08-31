@@ -89,12 +89,19 @@ const AdminDashboard = () => {
     }
   };
 
+  // changing the MongoDb default number to sequential number
+
   const columns = [
     {
       field: "_id",
-      headerName: "ID",
-      width: 150,
-      editable: true,
+      headerName: "No.",
+      width: 10,
+      valueGetter: (params) => params.row._id, // Use the actual _id as the sequential number
+      renderCell: (params) => {
+        const sequentialNumber =
+          posts.findIndex((post) => post._id === params.value) + 1;
+        return <>{sequentialNumber}</>;
+      },
     },
     {
       field: "title",
@@ -123,13 +130,13 @@ const AdminDashboard = () => {
     {
       field: "likes",
       headerName: "Suka",
-      width: 150,
+      width: 100,
       renderCell: (params) => params.row.likes.length,
     },
     {
       field: "comments",
       headerName: "Komentar",
-      width: 150,
+      width: 100,
       renderCell: (params) => params.row.comments.length,
     },
     {
@@ -190,15 +197,17 @@ const AdminDashboard = () => {
         </Button>
       </Box>
       {/* filter kategori */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography variant="body1">Filter by Category:</Typography>
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 5 }}
+      >
+        <Typography variant="body1">Pilih Kategori :</Typography>
         <Select
           value={selectedKategori}
           onChange={handleKategoriChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
         >
-          <MenuItem value="">All Categories</MenuItem>
+          <MenuItem value="">Semua Kategori</MenuItem>
           {kategoriList.map((kategori) => (
             <MenuItem key={kategori._id} value={kategori._id}>
               {kategori.namakat}
@@ -207,7 +216,7 @@ const AdminDashboard = () => {
         </Select>
       </Box>
       <Paper sx={{ bgcolor: "white" }}>
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: 500, width: "100%" }}>
           <DataGrid
             getRowId={(row) => row._id}
             sx={{
@@ -223,7 +232,7 @@ const AdminDashboard = () => {
             columns={columns}
             pageSize={3}
             rowsPerPageOptions={[3]}
-            checkboxSelection
+            // checkboxSelection
           />
         </Box>
       </Paper>

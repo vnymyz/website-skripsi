@@ -1,3 +1,4 @@
+import { Select, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import { Box, Container, Grid } from "@mui/material";
@@ -15,28 +16,61 @@ const socket = io("/", {
   reconnection: true,
 });
 
-const Home = () => {
+const Info = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [postAddLike, setPostAddLike] = useState([]);
   const [postRemoveLike, setPostRemoveLike] = useState([]);
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
 
   // DISPLAY POST
-
-  const showPosts = async () => {
-    setLoading(true);
+  const fetchKategoriList = async () => {
     try {
-      const { data } = await axios.get("/api/post/show");
-      setPosts(data.posts);
-      setLoading(false);
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
     } catch (error) {
-      console.log(error.response.data.error);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    showPosts();
+    fetchKategoriList();
   }, []);
+
+  const displayPost = async () => {
+    try {
+      const { data } = await axios.get("/api/post/show");
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    displayPost();
+  }, []);
+
+  const fetchPostByKategori = async (kategoriId) => {
+    try {
+      const { data } = await axios.get(`/api/bykategori/${kategoriId}`);
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handlekategori
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    setSelectedKategori(selectedKategoriId);
+
+    if (selectedKategoriId) {
+      fetchPostByKategori(selectedKategoriId);
+    } else {
+      displayPost();
+    }
+  };
 
   useEffect(() => {
     socket.on("add-like", (newPosts) => {
@@ -88,6 +122,28 @@ const Home = () => {
           alt="blue"
         />
         <Container sx={{ pt: 5, pb: 5, minHeight: "83vh" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: 5,
+              marginRight: 3,
+            }}
+          >
+            <Select
+              value={selectedKategori}
+              onChange={handleKategoriChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value="">Semua Kategori</MenuItem>
+              {kategoriList.map((kategori) => (
+                <MenuItem key={kategori._id} value={kategori._id}>
+                  {kategori.namakat}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               container
@@ -109,7 +165,7 @@ const Home = () => {
                       comments={post.comments.length}
                       likes={post.likes.length}
                       likesId={post.likes}
-                      showPosts={showPosts}
+                      showPosts={displayPost}
                     />
                   </Grid>
                 ))
@@ -124,4 +180,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Info;

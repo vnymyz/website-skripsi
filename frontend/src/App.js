@@ -20,7 +20,7 @@ import Singlepost from "./pages/Singlepost";
 import Testimoni from "./pages/Testimoni";
 import About from "./pages/About";
 import Beranda from "./pages/Beranda";
-import Info from "./pages/Info";
+// import Info from "./pages/Info";
 // import untuk kategori
 import CreateKategori from "./admin/CreateKategori";
 
@@ -47,7 +47,7 @@ const App = () => {
               <Route path="/login" element={<LogIn />} />
               <Route path="/register" element={<Register />} />
               <Route path="/post/:id" element={<Singlepost />} />
-              <Route path="/info" element={<Info />} />
+              {/* <Route path="/info" element={<Info />} /> */}
               <Route path="/testimoni" element={<Testimoni />} />
 
               <Route path="/about" element={<About />} />

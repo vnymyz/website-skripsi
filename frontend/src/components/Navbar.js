@@ -171,7 +171,7 @@ const Navbar = () => {
               </Link>
             </Typography>
 
-            <Typography
+            {/* <Typography
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block", mr: 2 }}
             >
@@ -182,7 +182,7 @@ const Navbar = () => {
               >
                 Artikel
               </Link>
-            </Typography>
+            </Typography> */}
 
             <Typography
               onClick={handleCloseNavMenu}
