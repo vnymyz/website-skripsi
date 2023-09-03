@@ -16,7 +16,7 @@ const socket = io("/", {
   reconnection: true,
 });
 
-const Info = () => {
+const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [postAddLike, setPostAddLike] = useState([]);
@@ -24,7 +24,7 @@ const Info = () => {
   const [selectedKategori, setSelectedKategori] = useState("");
   const [kategoriList, setKategoriList] = useState([]);
 
-  // DISPLAY POST
+  // Fetch kategoriList
   const fetchKategoriList = async () => {
     try {
       const { data } = await axios.get("/api/kategori/show");
@@ -38,6 +38,22 @@ const Info = () => {
     fetchKategoriList();
   }, []);
 
+  // Ensure that default category is set only when kategoriList changes
+  useEffect(() => {
+    // Set default selectedKategori to "Daftar Kucing" if found
+    const defaultKategori = kategoriList.find(
+      (kategori) => kategori.namakat === "Daftar Kucing"
+    );
+
+    if (defaultKategori) {
+      setSelectedKategori(defaultKategori._id);
+
+      // Fetch posts for the default category "Daftar Kucing"
+      fetchPostByKategori(defaultKategori._id);
+    }
+  }, [kategoriList]);
+
+  // DISPLAY POST
   const displayPost = async () => {
     try {
       const { data } = await axios.get("/api/post/show");
@@ -51,9 +67,12 @@ const Info = () => {
     displayPost();
   }, []);
 
+  // PANGGIL POST BERDASARKAN KATEGORI
   const fetchPostByKategori = async (kategoriId) => {
+    console.log("Fetching posts by category ID:", kategoriId);
     try {
       const { data } = await axios.get(`/api/bykategori/${kategoriId}`);
+      console.log("Fetched posts:", data.posts);
       setPosts(data.posts);
     } catch (error) {
       console.log(error);
@@ -130,6 +149,7 @@ const Info = () => {
               marginRight: 3,
             }}
           >
+            {/* SELECT BUTTON KATEGORI */}
             <Select
               value={selectedKategori}
               onChange={handleKategoriChange}
@@ -156,6 +176,7 @@ const Info = () => {
               ) : (
                 uiPosts.map((post, index) => (
                   <Grid item xs={2} sm={4} md={4} key={index}>
+                    {/* BUAT TAMPILIN POSTINGAN */}
                     <PostCard
                       id={post._id}
                       title={post.title}
@@ -180,4 +201,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default Home;
