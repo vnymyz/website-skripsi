@@ -5,10 +5,10 @@ const kategoriSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  jenis: {
-    type: String,
-    required: true,
-  },
+  // jenis: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 const Kategori = mongoose.model("Kategori", kategoriSchema);

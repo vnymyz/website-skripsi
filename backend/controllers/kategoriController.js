@@ -2,10 +2,10 @@ const Kategori = require("../models/kategoriModel");
 
 // membuat kategori baru
 exports.createKategori = async (req, res, next) => {
-  const { namakat, jenis } = req.body;
+  const { namakat } = req.body;
 
   try {
-    const kategori = await Kategori.create({ namakat, jenis });
+    const kategori = await Kategori.create({ namakat });
     res.status(201).json({
       success: true,
       kategori,
@@ -57,12 +57,12 @@ exports.showSingleKategori = async (req, res, next) => {
 
 // update kategori by id
 exports.updateKategori = async (req, res, next) => {
-  const { namakat, jenis } = req.body;
+  const { namakat } = req.body;
 
   try {
     const updatedKategori = await Kategori.findByIdAndUpdate(
       req.params.id,
-      { namakat, jenis },
+      { namakat },
       { new: true }
     );
 

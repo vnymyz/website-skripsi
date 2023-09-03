@@ -23,6 +23,8 @@ import Beranda from "./pages/Beranda";
 // import Info from "./pages/Info";
 // import untuk kategori
 import CreateKategori from "./admin/CreateKategori";
+import DeleteKategori from "./admin/DeleteKategori";
+import ManageKategori from "./admin/ManageKategori";
 
 // kalau mau buat pages baru bikin new file dulu
 // abis itu bikin route path nya dan juga import file nya
@@ -31,8 +33,9 @@ import CreateKategori from "./admin/CreateKategori";
 const AdminDashboardHOC = Layout(AdminDashboard);
 const CreatePostHOC = Layout(CreatePost);
 const EditPostHOC = Layout(EditPost);
-const CreateKategoriHOC = Layout(CreateKategori);
 const UserDashboardHOC = Layout(UserDashboard);
+const DeleteKategoriHOC = Layout(DeleteKategori);
+const ManageKategoriHOC = Layout(ManageKategori);
 
 const App = () => {
   return (
@@ -81,7 +84,15 @@ const App = () => {
                 path="/admin/kategori/create"
                 element={
                   <AdminRoute>
-                    <CreateKategoriHOC />
+                    <ManageKategoriHOC />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/kategori/delete"
+                element={
+                  <AdminRoute>
+                    <DeleteKategoriHOC />
                   </AdminRoute>
                 }
               />

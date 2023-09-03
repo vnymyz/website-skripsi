@@ -265,29 +265,37 @@ const Navbar = () => {
             >
               {user && user.name ? ( // If user is logged in
                 <>
+                  {user.role === "admin" ? ( // If user is an admin
+                    <>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          <Link
+                            to="/admin/dashboard"
+                            style={{ textDecoration: "none" }}
+                          >
+                            Admin
+                          </Link>
+                        </Typography>
+                      </MenuItem>
+                    </>
+                  ) : (
+                    // If user is not an admin
+                    <>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          <Link
+                            to="/user/dashboard"
+                            style={{ textDecoration: "none" }}
+                          >
+                            User
+                          </Link>
+                        </Typography>
+                      </MenuItem>
+                    </>
+                  )}
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        to="/admin/dashboard"
-                      >
-                        Admin
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        to="/user/dashboard"
-                      >
-                        User
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      <Link style={{ textDecoration: "none" }} onClick={logOut}>
+                      <Link onClick={logOut} style={{ textDecoration: "none" }}>
                         Keluar Akun
                       </Link>
                     </Typography>
@@ -297,7 +305,7 @@ const Navbar = () => {
                 // If user is not logged in
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
-                    <Link style={{ textDecoration: "none" }} to="/login">
+                    <Link to="/login" style={{ textDecoration: "none" }}>
                       Login
                     </Link>
                   </Typography>

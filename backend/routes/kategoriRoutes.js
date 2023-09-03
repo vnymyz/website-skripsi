@@ -14,6 +14,6 @@ router.post("/kategori/create", isAuthenticated, isAdmin, createKategori);
 router.get("/kategori/show", showKategori);
 router.get("/kategori/:id", showSingleKategori);
 router.put("/kategori/:id", isAuthenticated, isAdmin, updateKategori);
-router.delete("/kategori/:id", isAuthenticated, isAdmin, deleteKategori);
+router.delete("/delete/kategori/:id", isAuthenticated, isAdmin, deleteKategori);
 
 module.exports = router;
