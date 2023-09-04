@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 // import image from "../images/olen2.jpg";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useState } from "react";
 
 const PostCard = ({
   id,
@@ -27,19 +28,25 @@ const PostCard = ({
   content,
   comments,
   likes,
-  showPosts,
+  // showPost,
   likesId,
 }) => {
+  // const { userInfo } = useSelector((state) => state.signIn);
+
   const { userInfo } = useSelector((state) => state.signIn);
+  const [isLiked, setIsLiked] = useState(
+    likesId.includes(userInfo && userInfo.id)
+  );
 
   // ADD LIKE
   const addLike = async () => {
     try {
       const { data } = await axios.put(`/api/addlike/post/${id}`);
-      // console.log("likes", data.post);
-      // if (data.success == true) {
-      //   showPosts();
-      // }
+      console.log("likes", data.post);
+      if (data.success === true) {
+        // showPost();
+        setIsLiked(true);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);
@@ -50,10 +57,11 @@ const PostCard = ({
   const removeLike = async () => {
     try {
       const { data } = await axios.put(`/api/removelike/post/${id}`);
-      // console.log("remove likes", data.post);
-      // if (data.success == true) {
-      //   showPosts();
-      // }
+      console.log("remove likes", data.post);
+      if (data.success === true) {
+        // showPost();
+        setIsLiked(false);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);
@@ -83,8 +91,6 @@ const PostCard = ({
       </Link>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {/* {content}  */}
-
           <Box
             component="span"
             dangerouslySetInnerHTML={{
@@ -102,7 +108,7 @@ const PostCard = ({
           }}
         >
           <Box>
-            {likesId.includes(userInfo && userInfo.id) ? (
+            {/* {likesId.includes(userInfo && userInfo.id) ? (
               <IconButton onClick={removeLike} aria-label="add to favorites">
                 <FavoriteIcon sx={{ color: "red" }} />
               </IconButton>
@@ -110,8 +116,21 @@ const PostCard = ({
               <IconButton onClick={addLike} aria-label="add to favorites">
                 <FavoriteBorderIcon sx={{ color: "red" }} />
               </IconButton>
-            )}
+            )} */}
             {/* likes dari database */}
+            {/* {likes} Like(s) */}
+            {isLiked ? (
+              <IconButton
+                onClick={removeLike}
+                aria-label="remove from favorites"
+              >
+                <FavoriteIcon sx={{ color: "red" }} />
+              </IconButton>
+            ) : (
+              <IconButton onClick={addLike} aria-label="add to favorites">
+                <FavoriteBorderIcon sx={{ color: "red" }} />
+              </IconButton>
+            )}
             {likes} Like(s)
           </Box>
           <Box>

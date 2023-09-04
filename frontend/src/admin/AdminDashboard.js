@@ -38,7 +38,7 @@ const AdminDashboard = () => {
     fetchKategoriList();
   }, []);
 
-  const displayPost = async () => {
+  const showPost = async () => {
     try {
       const { data } = await axios.get("/api/post/show");
       setPosts(data.posts);
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    displayPost();
+    showPost();
   }, []);
 
   const fetchPostByKategori = async (kategoriId) => {
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
     if (selectedKategoriId) {
       fetchPostByKategori(selectedKategoriId);
     } else {
-      displayPost();
+      showPost();
     }
   };
 
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
         const { data } = await axios.delete(`/api/delete/post/${id}`);
         if (data.success === true) {
           toast.success(data.message);
-          displayPost();
+          showPost();
         }
       } catch (error) {
         console.log(error);
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
       width: 150,
       valueGetter: (params) => {
         const selectedKategori = kategoriList.find(
-          (kategori) => kategori._id == params.row.kategoriId
+          (kategori) => kategori._id === params.row.kategoriId
         );
         return selectedKategori ? selectedKategori.namakat : "N/A";
       },

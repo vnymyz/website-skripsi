@@ -191,7 +191,7 @@ const Navbar = () => {
               <Link
                 to="/testimoni"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/testimoni" ? "active" : ""}
+                className={path === "/testimoni" ? "active" : ""}
               >
                 Testimoni
               </Link>
@@ -204,7 +204,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/about" ? "active" : ""}
+                className={path === "/about" ? "active" : ""}
               >
                 Tentang
               </Link>
@@ -217,7 +217,7 @@ const Navbar = () => {
               <Link
                 to="/register"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/register" ? "active" : ""}
+                className={path === "/register" ? "active" : ""}
               >
                 Daftar
               </Link>
