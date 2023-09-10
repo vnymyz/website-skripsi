@@ -90,7 +90,7 @@ const Home = () => {
     setSelectedKategori(selectedKategoriId);
     console.log("Selected Kategori After:", selectedKategori);
 
-    if (selectedKategoriId) {
+    if (selectedKategoriId != "all") {
       fetchPostByKategori(selectedKategoriId);
     } else {
       showPost();
@@ -108,12 +108,12 @@ const Home = () => {
   //   });
   // }, []);
   useEffect(() => {
-    socket.on("add-like", (newPosts) => {
-      setPostAddLike(newPosts);
-    });
-    socket.on("remove-like", (newPosts) => {
-      setPostRemoveLike(newPosts);
-    });
+    // socket.on("add-like", (newPosts) => {
+    //   setPostAddLike(newPosts);
+    // });
+    // socket.on("remove-like", (newPosts) => {
+    //   setPostRemoveLike(newPosts);
+    // });
   }, []);
 
   let uiPosts =
@@ -170,7 +170,7 @@ const Home = () => {
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
             >
-              <MenuItem value="">Semua Kategori</MenuItem>
+              <MenuItem value="all">Semua Kategori</MenuItem>
               {kategoriList.map((kategori) => (
                 <MenuItem key={kategori._id} value={kategori._id}>
                   {kategori.namakat}

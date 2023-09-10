@@ -25,6 +25,9 @@ const pages = ["Home", "Log In"];
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const { loading, isAuthenticated, userInfo } = useSelector(
+    (state) => state.signIn
+  );
 
   const { user } = useSelector((state) => state.userProfile);
 
@@ -235,7 +238,7 @@ const Navbar = () => {
                     marginLeft: "10px",
                   }}
                 >
-                  {user && user.name}
+                  {userInfo && userInfo.name}
                 </span>
               </IconButton>
             </Tooltip>
@@ -263,9 +266,9 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {user && user.name ? ( // If user is logged in
+              {userInfo && userInfo.name ? ( // If user is logged in
                 <>
-                  {user.role === "admin" ? ( // If user is an admin
+                  {userInfo.role === "admin" ? ( // If user is an admin
                     <>
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">

@@ -41,8 +41,9 @@ const PostCard = ({
   // ADD LIKE
   const addLike = async () => {
     try {
+      // console.log('tes')
       const { data } = await axios.put(`/api/addlike/post/${id}`);
-      console.log("likes", data.post);
+      // console.log("likes", data.post);
       if (data.success === true) {
         // showPost();
         setIsLiked(true);
