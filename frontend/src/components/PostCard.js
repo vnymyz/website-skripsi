@@ -33,6 +33,8 @@ const PostCard = ({
 }) => {
   // const { userInfo } = useSelector((state) => state.signIn);
 
+  const [likes2, setLikes2] = useState(likes)
+
   const { userInfo } = useSelector((state) => state.signIn);
   const [isLiked, setIsLiked] = useState(
     likesId.includes(userInfo && userInfo.id)
@@ -43,9 +45,11 @@ const PostCard = ({
     try {
       // console.log('tes')
       const { data } = await axios.put(`/api/addlike/post/${id}`);
-      // console.log("likes", data.post);
+      console.log("likes", data.post);
       if (data.success === true) {
         // showPost();
+        // console.log(likes2)
+        setLikes2(likes2+1)
         setIsLiked(true);
       }
     } catch (error) {
@@ -61,6 +65,7 @@ const PostCard = ({
       console.log("remove likes", data.post);
       if (data.success === true) {
         // showPost();
+        setLikes2(likes2-1)
         setIsLiked(false);
       }
     } catch (error) {
@@ -132,7 +137,7 @@ const PostCard = ({
                 <FavoriteBorderIcon sx={{ color: "red" }} />
               </IconButton>
             )}
-            {likes} Like(s)
+            {likes2} Like(s)
           </Box>
           <Box>
             {/* comments dari database */}
