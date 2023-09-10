@@ -25,6 +25,9 @@ const pages = ["Home", "Log In"];
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const { loading, isAuthenticated, userInfo } = useSelector(
+    (state) => state.signIn
+  );
 
   const { user } = useSelector((state) => state.userProfile);
 
@@ -171,6 +174,19 @@ const Navbar = () => {
               </Link>
             </Typography>
 
+            {/* <Typography
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block", mr: 2 }}
+            >
+              <Link
+                to="/info"
+                style={{ color: "white", textDecoration: "none" }}
+                className={path == "/info" ? "active" : ""}
+              >
+                Artikel
+              </Link>
+            </Typography> */}
+
             <Typography
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block", mr: 2 }}
@@ -178,7 +194,7 @@ const Navbar = () => {
               <Link
                 to="/testimoni"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/testimoni" ? "active" : ""}
+                className={path === "/testimoni" ? "active" : ""}
               >
                 Testimoni
               </Link>
@@ -191,7 +207,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/about" ? "active" : ""}
+                className={path === "/about" ? "active" : ""}
               >
                 Tentang
               </Link>
@@ -204,7 +220,7 @@ const Navbar = () => {
               <Link
                 to="/register"
                 style={{ color: "white", textDecoration: "none" }}
-                className={path == "/register" ? "active" : ""}
+                className={path === "/register" ? "active" : ""}
               >
                 Daftar
               </Link>
@@ -222,7 +238,7 @@ const Navbar = () => {
                     marginLeft: "10px",
                   }}
                 >
-                  {user && user.name}
+                  {userInfo && userInfo.name}
                 </span>
               </IconButton>
             </Tooltip>
@@ -250,31 +266,39 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {user && user.name ? ( // If user is logged in
+              {userInfo && userInfo.name ? ( // If user is logged in
                 <>
+                  {userInfo.role === "admin" ? ( // If user is an admin
+                    <>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          <Link
+                            to="/admin/dashboard"
+                            style={{ textDecoration: "none" }}
+                          >
+                            Admin
+                          </Link>
+                        </Typography>
+                      </MenuItem>
+                    </>
+                  ) : (
+                    // If user is not an admin
+                    <>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          <Link
+                            to="/user/dashboard"
+                            style={{ textDecoration: "none" }}
+                          >
+                            User
+                          </Link>
+                        </Typography>
+                      </MenuItem>
+                    </>
+                  )}
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        to="/admin/dashboard"
-                      >
-                        Admin
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        to="/user/dashboard"
-                      >
-                        User
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      <Link style={{ textDecoration: "none" }} onClick={logOut}>
+                      <Link onClick={logOut} style={{ textDecoration: "none" }}>
                         Keluar Akun
                       </Link>
                     </Typography>
@@ -284,7 +308,7 @@ const Navbar = () => {
                 // If user is not logged in
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
-                    <Link style={{ textDecoration: "none" }} to="/login">
+                    <Link to="/login" style={{ textDecoration: "none" }}>
                       Login
                     </Link>
                   </Typography>

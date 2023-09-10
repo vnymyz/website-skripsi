@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Select, MenuItem } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -17,36 +17,103 @@ const socket = io("/", {
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [postAddLike, setPostAddLike] = useState([]);
   const [postRemoveLike, setPostRemoveLike] = useState([]);
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
 
-  // DISPLAY POST
-
-  const showPosts = async () => {
-    setLoading(true);
+  // Fetch kategoriList
+  const fetchKategoriList = async () => {
     try {
-      const { data } = await axios.get("/api/post/show");
-      setPosts(data.posts);
-      setLoading(false);
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
     } catch (error) {
-      console.log(error.response.data.error);
+      console.log(error);
     }
   };
 
+  // buat ambil data kategori
   useEffect(() => {
-    showPosts();
+    // setLoading(true);
+    fetchKategoriList();
   }, []);
 
+  // Ensure that default category is set only when kategoriList changes
   useEffect(() => {
-    socket.on("add-like", (newPosts) => {
-      setPostAddLike(newPosts);
-      setPostRemoveLike("");
-    });
-    socket.on("remove-like", (newPosts) => {
-      setPostRemoveLike(newPosts);
-      setPostAddLike("");
-    });
+    // Set default selectedKategori to "Daftar Kucing" if found
+    const defaultKategori = kategoriList.find(
+      (kategori) => kategori.namakat === "Daftar Kucing"
+    );
+
+    if (defaultKategori && !selectedKategori) {
+      setSelectedKategori(defaultKategori._id);
+
+      // Fetch posts for the default category "Daftar Kucing"
+      fetchPostByKategori(defaultKategori._id);
+    }
+    setLoading(false);
+  }, [kategoriList, selectedKategori]);
+
+  // DISPLAY POST
+  const showPost = async () => {
+    try {
+      const { data } = await axios.get("/api/post/show");
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   showPost();
+  // }, []); biar enggak loading 2x
+
+  // PANGGIL POST BERDASARKAN KATEGOR
+  // ini butuh bangetI
+  const fetchPostByKategori = async (kategoriId) => {
+    // console.log("Fetching posts by category ID:", kategoriId);
+    try {
+      const { data } = await axios.get(`/api/bykategori/${kategoriId}`);
+      console.log("Fetched posts:", data.posts);
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handlekategori
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    // setSelectedKategori(selectedKategoriId);
+    console.log("Selected Kategori Before:", selectedKategori);
+    setSelectedKategori(selectedKategoriId);
+    console.log("Selected Kategori After:", selectedKategori);
+
+    if (selectedKategoriId != "all") {
+      fetchPostByKategori(selectedKategoriId);
+    } else {
+      showPost();
+    }
+  };
+
+  // useEffect(() => {
+  //   socket.on("add-like", (newPosts) => {
+  //     setPostAddLike(newPosts);
+  //     setPostRemoveLike([]);
+  //   });
+  //   socket.on("remove-like", (newPosts) => {
+  //     setPostRemoveLike(newPosts);
+  //     setPostAddLike([]);
+  //   });
+  // }, []);
+  useEffect(() => {
+    // socket.on("add-like", (newPosts) => {
+    //   setPostAddLike(newPosts);
+    // });
+    // socket.on("remove-like", (newPosts) => {
+    //   setPostRemoveLike(newPosts);
+    // });
   }, []);
 
   let uiPosts =
@@ -88,6 +155,29 @@ const Home = () => {
           alt="blue"
         />
         <Container sx={{ pt: 5, pb: 5, minHeight: "83vh" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: 5,
+              marginRight: 3,
+            }}
+          >
+            {/* SELECT BUTTON KATEGORI */}
+            <Select
+              value={selectedKategori}
+              onChange={handleKategoriChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value="all">Semua Kategori</MenuItem>
+              {kategoriList.map((kategori) => (
+                <MenuItem key={kategori._id} value={kategori._id}>
+                  {kategori.namakat}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               container
@@ -100,6 +190,7 @@ const Home = () => {
               ) : (
                 uiPosts.map((post, index) => (
                   <Grid item xs={2} sm={4} md={4} key={index}>
+                    {/* BUAT TAMPILIN POSTINGAN */}
                     <PostCard
                       id={post._id}
                       title={post.title}
@@ -109,7 +200,13 @@ const Home = () => {
                       comments={post.comments.length}
                       likes={post.likes.length}
                       likesId={post.likes}
-                      showPosts={showPosts}
+                      // showPost={() => {
+                      //   if (selectedKategori) {
+                      //     fetchPostByKategori(selectedKategori);
+                      //   } else {
+                      //     showPost();
+                      //   }
+                      // }}
                     />
                   </Grid>
                 ))

@@ -20,6 +20,11 @@ import Singlepost from "./pages/Singlepost";
 import Testimoni from "./pages/Testimoni";
 import About from "./pages/About";
 import Beranda from "./pages/Beranda";
+// import Info from "./pages/Info";
+// import untuk kategori
+import CreateKategori from "./admin/CreateKategori";
+import DeleteKategori from "./admin/DeleteKategori";
+import ManageKategori from "./admin/ManageKategori";
 
 // kalau mau buat pages baru bikin new file dulu
 // abis itu bikin route path nya dan juga import file nya
@@ -29,6 +34,8 @@ const AdminDashboardHOC = Layout(AdminDashboard);
 const CreatePostHOC = Layout(CreatePost);
 const EditPostHOC = Layout(EditPost);
 const UserDashboardHOC = Layout(UserDashboard);
+const DeleteKategoriHOC = Layout(DeleteKategori);
+const ManageKategoriHOC = Layout(ManageKategori);
 
 const App = () => {
   return (
@@ -43,7 +50,9 @@ const App = () => {
               <Route path="/login" element={<LogIn />} />
               <Route path="/register" element={<Register />} />
               <Route path="/post/:id" element={<Singlepost />} />
+              {/* <Route path="/info" element={<Info />} /> */}
               <Route path="/testimoni" element={<Testimoni />} />
+
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
 
@@ -68,6 +77,22 @@ const App = () => {
                 element={
                   <AdminRoute>
                     <EditPostHOC />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/kategori/create"
+                element={
+                  <AdminRoute>
+                    <ManageKategoriHOC />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/kategori/delete"
+                element={
+                  <AdminRoute>
+                    <DeleteKategoriHOC />
                   </AdminRoute>
                 }
               />

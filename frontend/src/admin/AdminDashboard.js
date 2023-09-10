@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -14,8 +21,24 @@ import { useSelector } from "react-redux";
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
   const { user } = useSelector((state) => state.userProfile);
+  const [selectedKategori, setSelectedKategori] = useState("");
+  const [kategoriList, setKategoriList] = useState([]);
 
-  const displayPost = async () => {
+  // const untuk kategori
+  const fetchKategoriList = async () => {
+    try {
+      const { data } = await axios.get("/api/kategori/show");
+      setKategoriList(data.kategori);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchKategoriList();
+  }, []);
+
+  const showPost = async () => {
     try {
       const { data } = await axios.get("/api/post/show");
       setPosts(data.posts);
@@ -25,8 +48,29 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    displayPost();
+    showPost();
   }, []);
+
+  const fetchPostByKategori = async (kategoriId) => {
+    try {
+      const { data } = await axios.get(`/api/bykategori/${kategoriId}`);
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handlekategori
+  const handleKategoriChange = (event) => {
+    const selectedKategoriId = event.target.value;
+    setSelectedKategori(selectedKategoriId);
+
+    if (selectedKategoriId) {
+      fetchPostByKategori(selectedKategoriId);
+    } else {
+      showPost();
+    }
+  };
 
   //delete post by Id
   const deletePostById = async (e, id) => {
@@ -36,7 +80,7 @@ const AdminDashboard = () => {
         const { data } = await axios.delete(`/api/delete/post/${id}`);
         if (data.success === true) {
           toast.success(data.message);
-          displayPost();
+          showPost();
         }
       } catch (error) {
         console.log(error);
@@ -45,17 +89,36 @@ const AdminDashboard = () => {
     }
   };
 
+  // changing the MongoDb default number to sequential number
+
   const columns = [
     {
       field: "_id",
-      headerName: "ID",
-      width: 150,
-      editable: true,
+      headerName: "No.",
+      width: 10,
+      valueGetter: (params) => params.row._id, // Use the actual _id as the sequential number
+      renderCell: (params) => {
+        const sequentialNumber =
+          posts.findIndex((post) => post._id === params.value) + 1;
+        return <>{sequentialNumber}</>;
+      },
     },
     {
       field: "title",
       headerName: "Nama Judul",
       width: 150,
+    },
+
+    {
+      field: "kategori",
+      headerName: "Kategori",
+      width: 150,
+      valueGetter: (params) => {
+        const selectedKategori = kategoriList.find(
+          (kategori) => kategori._id === params.row.kategoriId
+        );
+        return selectedKategori ? selectedKategori.namakat : "N/A";
+      },
     },
 
     {
@@ -67,13 +130,13 @@ const AdminDashboard = () => {
     {
       field: "likes",
       headerName: "Suka",
-      width: 150,
+      width: 100,
       renderCell: (params) => params.row.likes.length,
     },
     {
       field: "comments",
       headerName: "Komentar",
-      width: 150,
+      width: 100,
       renderCell: (params) => params.row.comments.length,
     },
     {
@@ -133,8 +196,27 @@ const AdminDashboard = () => {
           </Link>{" "}
         </Button>
       </Box>
+      {/* filter kategori */}
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 5 }}
+      >
+        <Typography variant="body1">Pilih Kategori :</Typography>
+        <Select
+          value={selectedKategori}
+          onChange={handleKategoriChange}
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
+        >
+          <MenuItem value="">Semua Kategori</MenuItem>
+          {kategoriList.map((kategori) => (
+            <MenuItem key={kategori._id} value={kategori._id}>
+              {kategori.namakat}
+            </MenuItem>
+          ))}
+        </Select>
+      </Box>
       <Paper sx={{ bgcolor: "white" }}>
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: 500, width: "100%" }}>
           <DataGrid
             getRowId={(row) => row._id}
             sx={{
@@ -150,7 +232,7 @@ const AdminDashboard = () => {
             columns={columns}
             pageSize={3}
             rowsPerPageOptions={[3]}
-            checkboxSelection
+            // checkboxSelection
           />
         </Box>
       </Paper>

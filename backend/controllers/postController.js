@@ -1,12 +1,26 @@
 const cloudinary = require("../utils/cloudinary");
 const Post = require("../models/postModel");
+const Kategori = require("../models/kategoriModel");
 const ErrorResponse = require("../utils/errorResponse");
 const main = require("../app");
 
 // everytime you make an exports you have to import in postRoute
 // create post with the controller name
 exports.createPost = async (req, res, next) => {
-  const { title, content, postedBy, image, likes, comments } = req.body;
+  const { title, content, postedBy, image, kategoriId, likes, comments } =
+    req.body;
+
+  try {
+    const kategori = await Kategori.findById(kategoriId);
+    if (!kategori) {
+      return res.status(400).json({
+        success: false,
+        error: "Kategori not found",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
 
   try {
     // upload image in cloudinary
@@ -24,6 +38,7 @@ exports.createPost = async (req, res, next) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
+      kategoriId,
     });
 
     res.status(201).json({
@@ -92,7 +107,7 @@ exports.deletePost = async (req, res, next) => {
 // update or edit post
 exports.updatePost = async (req, res, next) => {
   try {
-    const { title, content, image } = req.body;
+    const { title, content, image, kategoriId } = req.body;
     const currentPost = await Post.findById(req.params.id);
 
     // build object data
@@ -100,6 +115,7 @@ exports.updatePost = async (req, res, next) => {
       title: title || currentPost.title,
       content: content || currentPost.content,
       image: image || currentPost.image,
+      kategoriId: kategoriId || currentPost.kategoriId,
     };
 
     // modify post image conditionally
@@ -205,6 +221,24 @@ exports.removeLike = async (req, res, next) => {
     res.status(200).json({
       success: true,
       post,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// adding new function to select post by kategori
+exports.fetchPostByKategori = async (req, res, next) => {
+  const kategoriId = req.params.kategoriId;
+
+  try {
+    const posts = await Post.find({ kategoriId })
+      .sort({ createdAt: -1 })
+      .populate("postedBy", "name");
+
+    res.status(200).json({
+      success: true,
+      posts,
     });
   } catch (error) {
     next(error);

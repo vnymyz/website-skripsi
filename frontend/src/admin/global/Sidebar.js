@@ -68,7 +68,10 @@ const SidebarAdm = () => {
             >
               {userInfo && userInfo.role === "admin" ? (
                 <>
-                  <MenuItem component={<Link to="/" />} icon={<HomeIcon />}>
+                  <MenuItem
+                    component={<Link to="/beranda" />}
+                    icon={<HomeIcon />}
+                  >
                     {" "}
                     Beranda{" "}
                   </MenuItem>
@@ -84,12 +87,23 @@ const SidebarAdm = () => {
                     icon={<PostAddIcon />}
                   >
                     {" "}
-                    Mengelola Kucing{" "}
+                    Kelola Data{" "}
+                  </MenuItem>
+                  <MenuItem
+                    component={<Link to="/admin/kategori/create" />}
+                    icon={<PostAddIcon />}
+                  >
+                    {" "}
+                    Kelola Kategori{" "}
                   </MenuItem>
                 </>
               ) : (
                 <>
-                  <MenuItem component={<Link to="/" />} icon={<HomeIcon />}>
+                  {/* YANG INI BUAT DASHBOARD USER  */}
+                  <MenuItem
+                    component={<Link to="/beranda" />}
+                    icon={<HomeIcon />}
+                  >
                     {" "}
                     Beranda{" "}
                   </MenuItem>
